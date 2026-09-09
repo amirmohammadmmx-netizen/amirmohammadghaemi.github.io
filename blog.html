@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            font-size: medium;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            min-height: 100vh;
+            padding: 100px 20px 20px;
+        }
+
+        /* Background Video */
+
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Top Bar */
+
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Clock */
+
+        #clock {
+            font-family: 'Courier New', monospace;
+            width: 220px;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            background: rgba(0, 0, 0, 0.5);
+            color: cyan;
+            border: 2px solid cyan;
+            border-radius: 15px;
+
+            box-shadow:
+                0 0 15px cyan,
+                0 0 30px cyan;
+
+            backdrop-filter: blur(8px);
+            transition: .3s;
+
+            pointer-events: auto;
+        }
+
+        #clock:hover {
+            transform: translateX(-50%) scale(1.08);
+        }
+
+        /* Date */
+
+        #date {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+
+            width: 220px;
+            height: 50px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 22px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+
+            color: cyan;
+            background: rgba(0, 0, 0, .5);
+
+            border: 2px solid cyan;
+            border-radius: 15px;
+
+            backdrop-filter: blur(8px);
+
+            box-shadow: 0 0 15px cyan;
+
+            transition: .3s;
+
+            pointer-events: auto;
+        }
+
+        #date:hover {
+            transform: scale(1.08);
+        }
+
+        /* Profile */
+
+        .prof {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .prof:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px cyan;
+        }
+
+        /* Cards */
+
+        .Information,
+        .contact,
+        .skills {
+            color: rgb(0, 0, 0);
+            background-color: rgba(255, 255, 255, 0.2);
+
+            border: 2px solid rgba(255, 255, 255, 0.4);
+
+            backdrop-filter: blur(6px);
+
+            box-shadow:
+                0 0 10px cyan,
+                0 0 30px cyan;
+
+            border-radius: 20px;
+            text-align: center;
+
+            margin: 5px;
+            opacity: 0.95;
+            padding: 20px;
+
+            transition: .3s;
+        }
+
+        .Information {
+            width: 400px;
+            min-height: 400px;
+        }
+
+        .contact {
+            width: 500px;
+            min-height: 500px;
+        }
+
+        .skills {
+            width: 400px;
+            min-height: 400px;
+        }
+
+        .Information:hover,
+        .contact:hover,
+        .skills:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Links */
+
+        div a {
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            padding: 15px;
+            transition: .3s;
+        }
+
+        a:hover {
+            color: cyan;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        /* Skills */
+
+        ul {
+            list-style-type: none;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        li {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        /* Details */
+
+        summary {
+            list-style: none;
+            cursor: pointer;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .python {
+            padding: 10px;
+            float: right;
+        }
+
+        .Introduction {
+            padding: 10px;
+            float: left;
+        }
+
+        .high {
+            padding: 10px;
+            float: left;
+        }
+
+        .python summary::before {
+            content: "🐍";
+            margin-right: 10px;
+        }
+
+        .Introduction summary::before {
+            content: "📚";
+            margin-right: 10px;
+        }
+
+        .high summary::before {
+            content: "🎓";
+            margin-right: 10px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 768px) {
+
+            body {
+                flex-direction: column;
+                height: auto;
+                padding: 100px 20px 20px;
+            }
+
+            .Information,
+            .contact,
+            .skills {
+                width: 90%;
+                height: auto;
+            }
+
+            #clock,
+            #date {
+                width: 130px;
+                height: 40px;
+                font-size: 18px;
+                line-height: 40px;
+            }
+
+            #clock {
+                top: 10px;
+            }
+
+            #date {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Top Bar -->
+
+    <div class="top-bar">
+
+        <h1 id="clock"></h1>
+
+        <h1 id="date"></h1>
+
+    </div>
+
+
+    <!-- Background Video -->
+
+    <video autoplay muted loop class="bg-video">
+
+        <source src="content/background.mp4" type="video/mp4">
+
+    </video>
+
+
+    <!-- Information -->
+
+    <div class="Information">
+
+        <img
+            src="content/photo29727296446.jpg"
+            alt="Profile"
+            class="prof"
+        >
+
+        <p id="name">
+            Name: Amirmohammad Ghaemi
+        </p>
+
+        <p id="Age"></p>
+
+        <p id="Location">
+            Location: Tehran, Yousefabad
+        </p>
+
+        <p>
+            Field of Study: Computer Engineering
+        </p>
+
+        <p id="bio">
+            Bio: I am Amirmohammad, Computer Engineering student
+            passionate about Back-End Development and Web Technologies.
+        </p>
+
+    </div>
+
+
+    <!-- Contact -->
+
+    <div class="contact">
+
+        <p>
+            You Can Follow My Github:
+
+            <a
+                href="https://github.com/amirmohammadmmx-netizen"
+                target="_blank"
+            >
+                GitHub Profile
+            </a>
+        </p>
+
+
+        <h2>
+            Contact To Me:
+        </h2>
+
+        <p>
+            <a
+                href="mailto:amirpegasus561@gmail.com"
+                target="_blank"
+            >
+                My Email
+            </a>
+        </p>
+
+
+        <h2>
+            My Certificates And Degrees:
+        </h2>
+
+
+        <details class="high">
+
+            <summary>
+                High School Diploma:
+            </summary>
+
+            <p>
+                Vocational Azadi School
+            </p>
+
+            <p>
+                Start Date: 2021/10/1
+            </p>
+
+            <p>
+                End Date: 2025/3/7
+            </p>
+
+        </details>
+
+
+        <details class="python">
+
+            <summary>
+                Python Programming:
+            </summary>
+
+            <a
+                href="content/certificate-en.jpg"
+                download
+                target="_blank"
+            >
+                Show Certificate
+            </a>
+
+        </details>
+
+
+        <details class="Introduction">
+
+            <summary>
+                Introduction To Algorithm And Programming
+            </summary>
+
+            <a
+                href="content/certificate-en (1).jpg"
+                download
+                target="_blank"
+            >
+                Show Certificate
+            </a>
+
+        </details>
+
+    </div>
+
+
+    <!-- Skills -->
+
+    <div class="skills">
+
+        <p>
+            Skills:
+        </p>
+
+        <ul>
+
+            <li>
+                Python Programming
+            </li>
+
+            <li>
+                JavaScript
+            </li>
+
+            <li>
+                Web Design
+            </li>
+
+            <li>
+                Python Flask
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+        let clock = document.getElementById("clock");
+
+        let da = document.getElementById("date");
+
+        let age = document.getElementById("Age");
+
+
+        // Show Time
+
+        function showtime() {
+
+            let time = new Date();
+
+            let hour = String(time.getHours()).padStart(2, "0");
+
+            let minutes = String(time.getMinutes()).padStart(2, "0");
+
+            let sec = String(time.getSeconds()).padStart(2, "0");
+
+
+            clock.innerHTML =
+                `${hour}:${minutes}:${sec}`;
+
+        }
+
+
+        // Show Date
+
+        function date() {
+
+            let time = new Date();
+
+            let year = time.getFullYear();
+
+            let month = String(time.getMonth() + 1).padStart(2, "0");
+
+            let day = String(time.getDate()).padStart(2, "0");
+
+
+            da.innerHTML =
+                `${month}/${day}/${year}`;
+
+        }
+
+
+        // Show Age
+
+        function Age() {
+
+            let time = new Date();
+
+            let year = time.getFullYear();
+
+
+            age.innerHTML =
+                `Age: ${year - 2007}`;
+
+        }
+
+
+        // Initial Execution
+
+        Age();
+
+        date();
+
+        showtime();
+
+
+        // Update Every Second
+
+        setInterval(date, 1000);
+
+        setInterval(showtime, 1000);
+
+    </script>
+
+</body>
+
+</html>
